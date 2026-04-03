@@ -23,7 +23,7 @@ export default function RiveBackground() {
     if (!ctx) return;
 
     let W = window.innerWidth;
-    let H = document.documentElement.scrollHeight;
+    let H = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
@@ -163,9 +163,8 @@ export default function RiveBackground() {
       ctx.clearRect(0, 0, W, H);
       time += 0.01;
 
-      const scrollY = window.scrollY;
-      const viewTop = scrollY - 300;
-      const viewBottom = scrollY + window.innerHeight + 300;
+      const viewTop = -300;
+      const viewBottom = H + 300;
 
       // Blobs
       blobs.forEach((blob) => {
@@ -289,7 +288,7 @@ export default function RiveBackground() {
 
     const handleResize = () => {
       W = window.innerWidth;
-      H = document.documentElement.scrollHeight;
+      H = window.innerHeight;
       canvas.width = W * dpr;
       canvas.height = H * dpr;
       canvas.style.width = W + "px";
@@ -298,22 +297,16 @@ export default function RiveBackground() {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY + window.scrollY };
+      mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
 
-    const resizeInterval = setInterval(() => {
-      const newH = document.documentElement.scrollHeight;
-      if (Math.abs(newH - H) > 100) handleResize();
-    }, 2000);
-
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      clearInterval(resizeInterval);
     };
   }, [mounted]);
 
@@ -322,7 +315,7 @@ export default function RiveBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute top-0 left-0 z-[1] pointer-events-none"
+      className="fixed inset-0 z-[1] pointer-events-none"
     />
   );
 }
