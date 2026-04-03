@@ -3,18 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Enhanced Rive-style animated background.
- * Multi-layer canvas with:
- * - Particle constellation network
- * - Flowing aurora curves
- * - Floating geometric shapes (rotating, scaling)
- * - Mouse-reactive glow region
- * - Pulsing grid nodes
+ * Rive-style organic mesh background.
+ * Creates a living, breathing mesh of morphing blob shapes,
+ * orbital rings, energy pulses along connections, and
+ * a reactive light that follows the cursor.
  */
 export default function RiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const mouseRef = useRef({ x: -9999, y: -9999 });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,233 +22,264 @@ export default function RiveBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let width = window.innerWidth;
-    let height = document.documentElement.scrollHeight;
-    canvas.width = width;
-    canvas.height = height;
-
-    // --- Particles ---
-    const particles: {
-      x: number; y: number;
-      vx: number; vy: number;
-      size: number; baseOpacity: number;
-      color: string; phase: number;
-    }[] = [];
-
-    const particleCount = Math.min(80, Math.floor(width / 20));
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        size: Math.random() * 1.8 + 0.4,
-        baseOpacity: Math.random() * 0.12 + 0.02,
-        color: Math.random() > 0.55 ? "accent" : "white",
-        phase: Math.random() * Math.PI * 2,
-      });
-    }
-
-    // --- Aurora curves ---
-    const auroras: { yBase: number; amplitude: number; frequency: number; speed: number; color: string; width: number }[] = [];
-    for (let i = 0; i < 4; i++) {
-      auroras.push({
-        yBase: height * (0.15 + i * 0.22),
-        amplitude: 40 + Math.random() * 60,
-        frequency: 0.001 + Math.random() * 0.002,
-        speed: 0.3 + Math.random() * 0.4,
-        color: i < 2 ? "rgba(255,107,107," : "rgba(255,255,255,",
-        width: 1 + Math.random(),
-      });
-    }
-
-    // --- Floating shapes ---
-    const shapes: {
-      x: number; y: number;
-      size: number; rotation: number; rotSpeed: number;
-      type: "square" | "triangle" | "circle" | "diamond";
-      opacity: number; driftX: number; driftY: number;
-    }[] = [];
-
-    const shapeTypes: ("square" | "triangle" | "circle" | "diamond")[] = ["square", "triangle", "circle", "diamond"];
-    for (let i = 0; i < 12; i++) {
-      shapes.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: 8 + Math.random() * 20,
-        rotation: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.005,
-        type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
-        opacity: 0.015 + Math.random() * 0.02,
-        driftX: (Math.random() - 0.5) * 0.15,
-        driftY: (Math.random() - 0.5) * 0.1,
-      });
-    }
-
-    // --- Grid pulse nodes ---
-    const gridNodes: { x: number; y: number; phase: number }[] = [];
-    const gridSpacing = 120;
-    for (let gx = gridSpacing; gx < width; gx += gridSpacing) {
-      for (let gy = gridSpacing; gy < Math.min(height, 6000); gy += gridSpacing) {
-        if (Math.random() > 0.7) {
-          gridNodes.push({ x: gx, y: gy, phase: Math.random() * Math.PI * 2 });
-        }
-      }
-    }
+    let W = window.innerWidth;
+    let H = document.documentElement.scrollHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+    ctx.scale(dpr, dpr);
 
     let time = 0;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY + window.scrollY };
+    // ─── Morphing blobs ───
+    const blobs: {
+      cx: number; cy: number;
+      radius: number; points: number;
+      speed: number; phase: number;
+      color: string; opacity: number;
+    }[] = [];
+
+    for (let i = 0; i < 6; i++) {
+      blobs.push({
+        cx: Math.random() * W,
+        cy: Math.random() * H,
+        radius: 80 + Math.random() * 120,
+        points: 6 + Math.floor(Math.random() * 4),
+        speed: 0.003 + Math.random() * 0.005,
+        phase: Math.random() * Math.PI * 2,
+        color: i < 3 ? "255,107,107" : "255,255,255",
+        opacity: 0.012 + Math.random() * 0.012,
+      });
+    }
+
+    // ─── Orbital rings ───
+    const orbitals: {
+      cx: number; cy: number;
+      radiusX: number; radiusY: number;
+      rotation: number; rotSpeed: number;
+      color: string; opacity: number;
+    }[] = [];
+
+    for (let i = 0; i < 5; i++) {
+      orbitals.push({
+        cx: W * (0.1 + Math.random() * 0.8),
+        cy: H * Math.random(),
+        radiusX: 100 + Math.random() * 200,
+        radiusY: 60 + Math.random() * 100,
+        rotation: Math.random() * Math.PI,
+        rotSpeed: 0.001 + Math.random() * 0.003,
+        color: i < 2 ? "255,107,107" : "255,255,255",
+        opacity: 0.015 + Math.random() * 0.01,
+      });
+    }
+
+    // ─── Network nodes ───
+    const nodes: {
+      x: number; y: number;
+      vx: number; vy: number;
+      radius: number; phase: number;
+      isAccent: boolean;
+    }[] = [];
+
+    const nodeCount = Math.min(50, Math.floor(W / 30));
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        radius: 1 + Math.random() * 1.5,
+        phase: Math.random() * Math.PI * 2,
+        isAccent: Math.random() > 0.5,
+      });
+    }
+
+    // ─── Energy pulses ───
+    const pulses: {
+      fromIdx: number; toIdx: number;
+      progress: number; speed: number;
+      active: boolean;
+    }[] = [];
+
+    const spawnPulse = () => {
+      if (pulses.filter(p => p.active).length > 6) return;
+      const from = Math.floor(Math.random() * nodes.length);
+      let to = Math.floor(Math.random() * nodes.length);
+      if (to === from) to = (to + 1) % nodes.length;
+      const dx = nodes[from].x - nodes[to].x;
+      const dy = nodes[from].y - nodes[to].y;
+      if (Math.sqrt(dx * dx + dy * dy) < 250) {
+        pulses.push({ fromIdx: from, toIdx: to, progress: 0, speed: 0.008 + Math.random() * 0.012, active: true });
+      }
     };
 
+    // ─── Draw helpers ───
+    const drawBlob = (blob: typeof blobs[0]) => {
+      ctx.beginPath();
+      for (let i = 0; i <= blob.points; i++) {
+        const angle = (i / blob.points) * Math.PI * 2;
+        const wobble = Math.sin(time * blob.speed * 50 + angle * 3 + blob.phase) * 0.25;
+        const r = blob.radius * (1 + wobble);
+        const x = blob.cx + Math.cos(angle) * r;
+        const y = blob.cy + Math.sin(angle) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = `rgba(${blob.color},${blob.opacity})`;
+      ctx.filter = "blur(40px)";
+      ctx.fill();
+      ctx.filter = "none";
+    };
+
+    const drawOrbital = (orb: typeof orbitals[0]) => {
+      ctx.save();
+      ctx.translate(orb.cx, orb.cy);
+      ctx.rotate(orb.rotation);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, orb.radiusX, orb.radiusY, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${orb.color},${orb.opacity})`;
+      ctx.lineWidth = 0.6;
+      ctx.setLineDash([4, 8]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Orbiting dot
+      const dotAngle = time * 0.5 + orb.rotation;
+      const dotX = Math.cos(dotAngle) * orb.radiusX;
+      const dotY = Math.sin(dotAngle) * orb.radiusY;
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${orb.color},${orb.opacity * 3})`;
+      ctx.fill();
+
+      ctx.restore();
+    };
+
+    // ─── Main loop ───
     const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-      time += 0.008;
+      ctx.clearRect(0, 0, W, H);
+      time += 0.01;
 
       const scrollY = window.scrollY;
-      const viewTop = scrollY;
-      const viewBottom = scrollY + window.innerHeight;
+      const viewTop = scrollY - 300;
+      const viewBottom = scrollY + window.innerHeight + 300;
 
-      // --- Draw grid pulse nodes ---
-      gridNodes.forEach((node) => {
-        if (node.y < viewTop - 100 || node.y > viewBottom + 100) return;
-        const pulse = Math.sin(time * 2 + node.phase) * 0.5 + 0.5;
-        const nodeSize = 1 + pulse * 1.5;
-        const isAccent = Math.sin(node.phase) > 0.3;
-
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, nodeSize, 0, Math.PI * 2);
-        ctx.fillStyle = isAccent
-          ? `rgba(255,107,107,${0.03 + pulse * 0.04})`
-          : `rgba(255,255,255,${0.02 + pulse * 0.025})`;
-        ctx.fill();
-      });
-
-      // --- Draw aurora curves ---
-      auroras.forEach((aurora) => {
-        ctx.beginPath();
-        ctx.moveTo(0, aurora.yBase);
-        for (let x = 0; x <= width; x += 3) {
-          const y =
-            aurora.yBase +
-            Math.sin(x * aurora.frequency + time * aurora.speed) * aurora.amplitude +
-            Math.sin(x * aurora.frequency * 2.5 + time * aurora.speed * 1.5) * aurora.amplitude * 0.3;
-          ctx.lineTo(x, y);
+      // Blobs
+      blobs.forEach((blob) => {
+        blob.cx += Math.sin(time * blob.speed * 30) * 0.3;
+        blob.cy += Math.cos(time * blob.speed * 20) * 0.2;
+        if (blob.cy > viewTop && blob.cy < viewBottom) {
+          drawBlob(blob);
         }
-        ctx.strokeStyle = aurora.color + "0.012)";
-        ctx.lineWidth = aurora.width;
-        ctx.stroke();
       });
 
-      // --- Draw floating shapes ---
-      shapes.forEach((shape) => {
-        shape.x += shape.driftX;
-        shape.y += shape.driftY;
-        shape.rotation += shape.rotSpeed;
-
-        if (shape.x < -50) shape.x = width + 50;
-        if (shape.x > width + 50) shape.x = -50;
-        if (shape.y < -50) shape.y = height + 50;
-        if (shape.y > height + 50) shape.y = -50;
-
-        if (shape.y < viewTop - 200 || shape.y > viewBottom + 200) return;
-
-        ctx.save();
-        ctx.translate(shape.x, shape.y);
-        ctx.rotate(shape.rotation);
-        ctx.strokeStyle = `rgba(255,107,107,${shape.opacity})`;
-        ctx.lineWidth = 0.5;
-
-        if (shape.type === "square") {
-          ctx.strokeRect(-shape.size / 2, -shape.size / 2, shape.size, shape.size);
-        } else if (shape.type === "circle") {
-          ctx.beginPath();
-          ctx.arc(0, 0, shape.size / 2, 0, Math.PI * 2);
-          ctx.stroke();
-        } else if (shape.type === "triangle") {
-          ctx.beginPath();
-          ctx.moveTo(0, -shape.size / 2);
-          ctx.lineTo(-shape.size / 2, shape.size / 2);
-          ctx.lineTo(shape.size / 2, shape.size / 2);
-          ctx.closePath();
-          ctx.stroke();
-        } else if (shape.type === "diamond") {
-          ctx.beginPath();
-          ctx.moveTo(0, -shape.size / 2);
-          ctx.lineTo(shape.size / 2, 0);
-          ctx.lineTo(0, shape.size / 2);
-          ctx.lineTo(-shape.size / 2, 0);
-          ctx.closePath();
-          ctx.stroke();
+      // Orbitals
+      orbitals.forEach((orb) => {
+        orb.rotation += orb.rotSpeed;
+        if (orb.cy > viewTop - orb.radiusY && orb.cy < viewBottom + orb.radiusY) {
+          drawOrbital(orb);
         }
-        ctx.restore();
       });
 
-      // --- Draw particles ---
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
+      // Nodes + connections
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
 
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
 
-        if (p.y < viewTop - 100 || p.y > viewBottom + 100) return;
+        if (n.y < viewTop || n.y > viewBottom) continue;
 
-        // Breathe effect
-        const breathe = Math.sin(time * 1.5 + p.phase) * 0.3 + 0.7;
-        const opacity = p.baseOpacity * breathe;
-
-        // Mouse proximity boost
+        // Mouse repulsion
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
-        const distMouse = Math.sqrt((p.x - mx) ** 2 + (p.y - my) ** 2);
-        const mouseBoost = distMouse < 200 ? (1 - distMouse / 200) * 0.15 : 0;
+        const dmx = n.x - mx;
+        const dmy = n.y - my;
+        const distM = Math.sqrt(dmx * dmx + dmy * dmy);
+        if (distM < 180 && distM > 0) {
+          const force = (1 - distM / 180) * 0.3;
+          n.x += (dmx / distM) * force;
+          n.y += (dmy / distM) * force;
+        }
 
+        // Breathe
+        const breathe = Math.sin(time * 2 + n.phase) * 0.35 + 0.65;
+        const nodeOpacity = (n.isAccent ? 0.15 : 0.08) * breathe;
+
+        // Draw node
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle =
-          p.color === "accent"
-            ? `rgba(255,107,107,${opacity + mouseBoost})`
-            : `rgba(255,255,255,${opacity + mouseBoost})`;
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = n.isAccent
+          ? `rgba(255,107,107,${nodeOpacity})`
+          : `rgba(255,255,255,${nodeOpacity})`;
         ctx.fill();
-      });
 
-      // --- Draw connections ---
-      for (let i = 0; i < particles.length; i++) {
-        if (particles[i].y < viewTop - 100 || particles[i].y > viewBottom + 100) continue;
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+        // Connections
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          const dx = n.x - n2.x;
+          const dy = n.y - n2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 160) {
+          if (dist < 180) {
+            const alpha = (1 - dist / 180) * 0.02;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            const alpha = (1 - dist / 160) * 0.025;
-            const isAccentLine = particles[i].color === "accent" || particles[j].color === "accent";
-            ctx.strokeStyle = isAccentLine
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = (n.isAccent || n2.isAccent)
               ? `rgba(255,107,107,${alpha})`
-              : `rgba(255,255,255,${alpha * 0.7})`;
-            ctx.lineWidth = 0.5;
+              : `rgba(255,255,255,${alpha * 0.6})`;
+            ctx.lineWidth = 0.4;
             ctx.stroke();
           }
         }
       }
 
-      // --- Mouse glow ---
-      if (mouseRef.current.x > 0) {
-        const gradient = ctx.createRadialGradient(
-          mouseRef.current.x, mouseRef.current.y, 0,
-          mouseRef.current.x, mouseRef.current.y, 200
-        );
-        gradient.addColorStop(0, "rgba(255,107,107,0.03)");
+      // Energy pulses
+      if (Math.random() < 0.02) spawnPulse();
+
+      pulses.forEach((pulse) => {
+        if (!pulse.active) return;
+        pulse.progress += pulse.speed;
+        if (pulse.progress >= 1) { pulse.active = false; return; }
+
+        const from = nodes[pulse.fromIdx];
+        const to = nodes[pulse.toIdx];
+        const px = from.x + (to.x - from.x) * pulse.progress;
+        const py = from.y + (to.y - from.y) * pulse.progress;
+
+        if (py < viewTop || py > viewBottom) return;
+
+        const gradient = ctx.createRadialGradient(px, py, 0, px, py, 8);
+        gradient.addColorStop(0, "rgba(255,107,107,0.2)");
         gradient.addColorStop(1, "rgba(255,107,107,0)");
         ctx.fillStyle = gradient;
-        ctx.fillRect(mouseRef.current.x - 200, mouseRef.current.y - 200, 400, 400);
+        ctx.beginPath();
+        ctx.arc(px, py, 8, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Clean up dead pulses
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        if (!pulses[i].active) pulses.splice(i, 1);
+      }
+
+      // Mouse glow
+      if (mouseRef.current.x > 0) {
+        const g = ctx.createRadialGradient(
+          mouseRef.current.x, mouseRef.current.y, 0,
+          mouseRef.current.x, mouseRef.current.y, 250
+        );
+        g.addColorStop(0, "rgba(255,107,107,0.035)");
+        g.addColorStop(0.5, "rgba(255,107,107,0.01)");
+        g.addColorStop(1, "rgba(255,107,107,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(mouseRef.current.x - 250, mouseRef.current.y - 250, 500, 500);
       }
 
       animationRef.current = requestAnimationFrame(animate);
@@ -260,22 +288,25 @@ export default function RiveBackground() {
     animate();
 
     const handleResize = () => {
-      width = window.innerWidth;
-      height = document.documentElement.scrollHeight;
-      canvas.width = width;
-      canvas.height = height;
+      W = window.innerWidth;
+      H = document.documentElement.scrollHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY + window.scrollY };
     };
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Re-measure height periodically (content may load)
     const resizeInterval = setInterval(() => {
-      const newHeight = document.documentElement.scrollHeight;
-      if (Math.abs(newHeight - height) > 100) {
-        height = newHeight;
-        canvas.height = height;
-      }
+      const newH = document.documentElement.scrollHeight;
+      if (Math.abs(newH - H) > 100) handleResize();
     }, 2000);
 
     return () => {
@@ -292,7 +323,6 @@ export default function RiveBackground() {
     <canvas
       ref={canvasRef}
       className="absolute top-0 left-0 z-[1] pointer-events-none"
-      style={{ width: "100%", minHeight: "100%" }}
     />
   );
 }
