@@ -1,91 +1,74 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Lightbulb, Cloud, Store, TrendingUp } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
 const audiences = [
   {
-    icon: Lightbulb,
     title: "Startup Founders",
     description: "Turn your idea into a funded, market-ready product.",
+    icon: "🚀",
+    accent: true,
   },
   {
-    icon: Cloud,
     title: "SaaS Builders",
     description: "Build scalable SaaS platforms with modern architecture.",
+    icon: "☁️",
+    accent: false,
   },
   {
-    icon: Store,
     title: "E-commerce Brands",
     description: "Launch and grow your online store with proven strategies.",
+    icon: "🛍️",
+    accent: false,
   },
   {
-    icon: TrendingUp,
     title: "Entrepreneurs",
     description: "From side hustle to full business — we help you scale.",
+    icon: "📈",
+    accent: true,
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
-};
-
 export default function Audience() {
   return (
-    <section className="relative py-32 px-4 sm:px-6">
+    <section className="relative py-32 lg:py-40 px-6">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
           tag="Who We Serve"
-          title="Built for Builders"
-          subtitle="Whether you're bootstrapping or scaling — we've got you covered."
+          title="Built for builders"
+          subtitle="Whether you're bootstrapping or scaling — we've got you."
         />
 
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {audiences.map((item) => (
+        {/* Horizontal scroll on mobile, grid on desktop */}
+        <div className="flex lg:grid lg:grid-cols-4 gap-5 overflow-x-auto hide-scrollbar pb-4 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0">
+          {audiences.map((item, index) => (
             <motion.div
               key={item.title}
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="glass rounded-2xl p-6 text-center group hover:border-white/20 transition-all duration-300 cursor-default relative overflow-hidden"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className={`min-w-[260px] lg:min-w-0 group p-7 rounded-2xl border transition-all duration-500 cursor-default ${
+                item.accent
+                  ? "border-[#ff6b6b]/15 bg-[#ff6b6b]/[0.03] hover:border-[#ff6b6b]/30"
+                  : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12]"
+              }`}
               data-hover
             >
-              {/* Hover glow — white */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.01] to-white/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10">
-                <motion.div
-                  className="w-12 h-12 rounded-full bg-white/[0.06] flex items-center justify-center mx-auto mb-4"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <item.icon className="text-[#F5F5F5]" size={22} />
-                </motion.div>
-                <h3 className="text-lg font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-[#888] text-sm">
-                  {item.description}
-                </p>
-              </div>
+              <span className="text-4xl mb-5 block">{item.icon}</span>
+              <h3 className={`text-lg font-semibold font-[family-name:var(--font-space-grotesk)] mb-2 tracking-tight ${
+                item.accent ? "text-[#ff6b6b]" : "text-[#F5F5F5]"
+              }`}>
+                {item.title}
+              </h3>
+              <p className="text-[#666] text-sm leading-relaxed">
+                {item.description}
+              </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

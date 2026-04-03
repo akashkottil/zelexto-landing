@@ -2,23 +2,22 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 const footerLinks = [
   { label: "Services", href: "#services" },
-  { label: "Why Us", href: "#why-zelexto" },
   { label: "Process", href: "#process" },
-  { label: "Portfolio", href: "#portfolio" },
+  { label: "Work", href: "#portfolio" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 py-12 px-4 sm:px-6">
+    <footer className="border-t border-white/[0.05] py-16 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <span className="text-2xl font-bold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5]">
-              Zelexto
+            <span className="text-xl font-bold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] tracking-tight">
+              zel<span className="text-[#ff6b6b]">exto</span>
             </span>
-            <p className="text-[#888] text-sm mt-3 leading-relaxed max-w-xs">
+            <p className="text-[#666] text-sm mt-4 leading-relaxed max-w-xs">
               Your AI-powered digital agency. We build startups, MVPs, and
               e-commerce brands with speed and precision.
             </p>
@@ -26,15 +25,16 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 className="text-[#F5F5F5] font-semibold mb-4 font-[family-name:var(--font-space-grotesk)]">
-              Quick Links
+            <h4 className="text-[12px] uppercase tracking-[0.2em] text-[#888] font-medium mb-5">
+              Navigation
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-[#888] text-sm hover:text-[#F5F5F5] transition-colors"
+                    className="text-[#666] text-sm hover:text-[#F5F5F5] transition-colors duration-300"
+                    data-hover
                   >
                     {link.label}
                   </a>
@@ -45,33 +45,37 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-[#F5F5F5] font-semibold mb-4 font-[family-name:var(--font-space-grotesk)]">
+            <h4 className="text-[12px] uppercase tracking-[0.2em] text-[#888] font-medium mb-5">
               Contact
             </h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-[#888] text-sm">
-                <Phone size={14} className="text-[#F5F5F5]" />
-                <a href="tel:+918590090380" className="hover:text-[#F5F5F5] transition-colors">
+              <li className="flex items-center gap-3 text-[#666] text-sm">
+                <Phone size={14} className="text-[#ff6b6b]" />
+                <a href="tel:+918590090380" className="hover:text-[#F5F5F5] transition-colors" data-hover>
                   +91 8590090380
                 </a>
               </li>
-              <li className="flex items-center gap-2 text-[#888] text-sm">
-                <Mail size={14} className="text-[#F5F5F5]" />
-                <a href="mailto:hello@zelexto.com" className="hover:text-[#F5F5F5] transition-colors">
-                  hello@zelexto.com
+              <li className="flex items-center gap-3 text-[#666] text-sm">
+                <Mail size={14} className="text-[#ff6b6b]" />
+                <a href="mailto:zelexto@gmail.com" className="hover:text-[#F5F5F5] transition-colors" data-hover>
+                  zelexto@gmail.com
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-[#888] text-sm">
-                <MapPin size={14} className="text-[#F5F5F5] mt-0.5" />
+              <li className="flex items-start gap-3 text-[#666] text-sm">
+                <MapPin size={14} className="text-[#ff6b6b] mt-0.5" />
                 <span>India</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 pt-6 text-center">
-          <p className="text-[#888] text-sm">
+        <div className="section-divider mt-12 mb-6" />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[#444] text-xs">
             &copy; {new Date().getFullYear()} Zelexto. All rights reserved.
+          </p>
+          <p className="text-[#333] text-xs">
+            Designed & built with precision
           </p>
         </div>
       </div>

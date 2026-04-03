@@ -2,43 +2,37 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Zap, HeartHandshake, Layers, Sparkles } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+
+const stats = [
+  { number: "48h", label: "Average response time", highlight: true },
+  { number: "50+", label: "Projects delivered", highlight: false },
+  { number: "98%", label: "Client satisfaction", highlight: true },
+  { number: "24/7", label: "Personal support", highlight: false },
+];
 
 const highlights = [
   {
-    icon: Zap,
-    title: "Fast Delivery",
-    description: "We move fast without breaking things. Your MVP in weeks, not months.",
+    title: "Speed that matters",
+    description: "We ship MVPs in weeks, not months. Your startup doesn't have time to wait — and neither do we.",
+    accent: true,
   },
   {
-    icon: HeartHandshake,
-    title: "Personal Support",
-    description: "Direct access to your dev team. No ticket queues, no waiting.",
+    title: "Your personal tech team",
+    description: "Direct Slack/WhatsApp access to your developers. No ticket queues, no account managers in between.",
+    accent: false,
   },
   {
-    icon: Layers,
-    title: "All-in-One Service",
-    description: "Design, development, marketing — everything handled under one roof.",
+    title: "Everything, one roof",
+    description: "Design, development, AI, marketing — you don't need five agencies. You need one great one.",
+    accent: false,
   },
   {
-    icon: Sparkles,
-    title: "AI-Powered Solutions",
-    description: "We integrate cutting-edge AI into every product we build.",
+    title: "AI-native approach",
+    description: "Every product we build leverages AI from day one. Not as a feature — as a foundation.",
+    accent: true,
   },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
 
 export default function WhyZelexto() {
   const sectionRef = useRef(null);
@@ -50,62 +44,79 @@ export default function WhyZelexto() {
   const bgY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   return (
-    <section id="why-zelexto" ref={sectionRef} className="relative py-32 px-4 sm:px-6 overflow-hidden">
+    <section id="why-zelexto" ref={sectionRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
       <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full opacity-[0.03] pointer-events-none"
+        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.04] pointer-events-none"
         style={{
           y: bgY,
-          background: "radial-gradient(circle, #ffffff, transparent 70%)",
-          filter: "blur(80px)",
-          top: "10%",
-          right: "-5%",
+          background: "radial-gradient(circle, #ff6b6b, transparent 70%)",
+          filter: "blur(100px)",
+          top: "20%",
+          right: "-10%",
         }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <SectionHeading
-          tag="Why Choose Us"
-          title="Why Startups Love Zelexto"
-          subtitle="We're not just another agency — we're your technical co-founder."
+          tag="Why Zelexto"
+          title="Not just another agency"
+          subtitle="We're the technical co-founder your startup needs."
         />
 
+        {/* Stats bar */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
         >
-          {highlights.map((item) => (
-            <motion.div
-              key={item.title}
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="glass rounded-2xl p-6 text-center group hover:border-white/20 transition-all duration-300 relative overflow-hidden cursor-default"
-              data-hover
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="text-center p-6 rounded-2xl border border-white/[0.05] bg-white/[0.02]"
             >
-              {/* Background glow on hover — white/gray only */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-white/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-
-              <div className="relative z-10">
-                <motion.div
-                  className="w-14 h-14 rounded-2xl bg-white/[0.06] flex items-center justify-center mx-auto mb-4 group-hover:bg-white/[0.1] transition-colors duration-300"
-                  whileHover={{ rotate: [0, -10, 10, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <item.icon className="text-[#F5F5F5]" size={28} />
-                </motion.div>
-                <h3 className="text-lg font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-[#888] text-sm leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
+              <span className={`text-4xl lg:text-5xl font-bold font-[family-name:var(--font-space-grotesk)] tracking-tight ${
+                stat.highlight ? "text-[#ff6b6b]" : "text-[#F5F5F5]"
+              }`}>
+                {stat.number}
+              </span>
+              <p className="text-[#666] text-sm mt-2">{stat.label}</p>
+            </div>
           ))}
         </motion.div>
+
+        {/* Feature grid — alternating layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {highlights.map((item, index) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ y: -4 }}
+              className={`group p-8 lg:p-10 rounded-2xl border transition-all duration-500 ${
+                item.accent
+                  ? "border-[#ff6b6b]/15 bg-[#ff6b6b]/[0.03] hover:border-[#ff6b6b]/30 hover:bg-[#ff6b6b]/[0.05]"
+                  : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.04]"
+              }`}
+              data-hover
+            >
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[#666] mb-4 block">
+                0{index + 1}
+              </span>
+              <h3 className={`text-2xl lg:text-3xl font-bold font-[family-name:var(--font-space-grotesk)] tracking-tight mb-3 ${
+                item.accent ? "text-[#ff6b6b]" : "text-[#F5F5F5]"
+              }`}>
+                {item.title}
+              </h3>
+              <p className="text-[#888] text-base leading-relaxed">
+                {item.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

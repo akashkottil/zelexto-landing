@@ -1,156 +1,144 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 
 export default function ParallaxGrid() {
-  const ref = useRef(null);
   const { scrollYProgress } = useScroll();
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -500]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, -400]);
-  const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 45]);
-  const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -400]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -600]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, -250]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [0, -500]);
+  const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -45]);
+  const opacity1 = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.04, 0.06, 0.04, 0.02]);
 
   return (
-    <div ref={ref} className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      {/* Fine dot grid — tight spacing, subtle */}
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Fine dot grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage: `radial-gradient(circle, #ffffff 0.5px, transparent 0.5px)`,
-          backgroundSize: "32px 32px",
+          backgroundSize: "28px 28px",
         }}
       />
 
-      {/* Thin line grid overlay — very subtle */}
+      {/* Larger accent grid */}
       <div
-        className="absolute inset-0 opacity-[0.015]"
+        className="absolute inset-0 opacity-[0.012]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: "80px 80px",
+          backgroundImage: `linear-gradient(rgba(255,107,107,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,107,107,0.4) 1px, transparent 1px)`,
+          backgroundSize: "120px 120px",
         }}
       />
 
-      {/* Floating white/gray gradient orbs — Layer 1 */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full"
-        style={{
-          y: y1,
-          background: "radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%)",
-          filter: "blur(80px)",
-          top: "5%",
-          right: "10%",
-        }}
-      />
-
-      {/* Layer 2 */}
-      <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
-        style={{
-          y: y2,
-          background: "radial-gradient(circle, rgba(255,255,255,0.04), transparent 70%)",
-          filter: "blur(100px)",
-          top: "35%",
-          left: "5%",
-        }}
-      />
-
-      {/* Layer 3 */}
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full"
-        style={{
-          y: y3,
-          background: "radial-gradient(circle, rgba(200,200,200,0.05), transparent 70%)",
-          filter: "blur(70px)",
-          top: "65%",
-          right: "20%",
-        }}
-      />
-
-      {/* Layer 4 — additional depth */}
-      <motion.div
-        className="absolute w-[350px] h-[350px] rounded-full"
-        style={{
-          y: y4,
-          background: "radial-gradient(circle, rgba(255,255,255,0.03), transparent 70%)",
-          filter: "blur(90px)",
-          top: "80%",
-          left: "30%",
-        }}
-      />
-
-      {/* Floating geometric shapes with parallax */}
-      <motion.div
-        className="absolute w-20 h-20 border border-white/[0.03] rounded-xl"
-        style={{ y: y1, rotate: rotate1, top: "20%", left: "8%" }}
-      />
-      <motion.div
-        className="absolute w-16 h-16 border border-white/[0.04] rounded-full"
-        style={{ y: y2, top: "55%", right: "12%" }}
-      />
-      <motion.div
-        className="absolute w-12 h-12 border border-white/[0.03] rotate-45"
-        style={{ y: y3, rotate: rotate2, top: "75%", left: "20%" }}
-      />
-      <motion.div
-        className="absolute w-24 h-24 border border-white/[0.025] rounded-2xl"
-        style={{ y: y1, rotate: rotate2, top: "35%", right: "30%" }}
-      />
-      <motion.div
-        className="absolute w-8 h-8 bg-white/[0.02] rounded-full"
-        style={{ y: y3, top: "85%", right: "40%" }}
-      />
-      <motion.div
-        className="absolute w-14 h-14 border border-white/[0.03] rounded-lg rotate-12"
-        style={{ y: y2, rotate: rotate1, top: "15%", right: "45%" }}
-      />
-
-      {/* Horizontal accent lines with parallax */}
-      <motion.div
-        className="absolute h-px w-48 opacity-[0.05]"
-        style={{
-          y: y1,
-          background: "linear-gradient(90deg, transparent, #ffffff, transparent)",
-          top: "25%",
-          left: "5%",
-        }}
-      />
-      <motion.div
-        className="absolute h-px w-64 opacity-[0.04]"
-        style={{
-          y: y3,
-          background: "linear-gradient(90deg, transparent, #ffffff, transparent)",
-          top: "55%",
-          right: "5%",
-        }}
-      />
-      <motion.div
-        className="absolute w-px h-48 opacity-[0.04]"
-        style={{
-          y: y2,
-          background: "linear-gradient(180deg, transparent, #ffffff, transparent)",
-          top: "40%",
-          left: "50%",
-        }}
-      />
-      <motion.div
-        className="absolute h-px w-32 opacity-[0.03]"
-        style={{
-          y: y4,
-          background: "linear-gradient(90deg, transparent, #ffffff, transparent)",
-          top: "75%",
-          left: "25%",
-        }}
-      />
-
-      {/* Grain / noise texture overlay */}
+      {/* Cross pattern at intersections */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundImage: `radial-gradient(circle, rgba(255,107,107,0.5) 1px, transparent 1px)`,
+          backgroundSize: "120px 120px",
+        }}
+      />
+
+      {/* Gradient orbs — Layer 1 (warm) */}
+      <motion.div
+        className="absolute w-[700px] h-[700px] rounded-full"
+        style={{
+          y: y1,
+          opacity: opacity1,
+          background: "radial-gradient(circle, rgba(255,107,107,0.15), transparent 70%)",
+          filter: "blur(100px)",
+          top: "-5%",
+          right: "5%",
+        }}
+      />
+
+      {/* Layer 2 (cool white) */}
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full opacity-[0.04]"
+        style={{
+          y: y2,
+          background: "radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%)",
+          filter: "blur(100px)",
+          top: "30%",
+          left: "-5%",
+        }}
+      />
+
+      {/* Layer 3 (warm accent) */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.035]"
+        style={{
+          y: y3,
+          background: "radial-gradient(circle, rgba(255,138,138,0.12), transparent 70%)",
+          filter: "blur(90px)",
+          top: "55%",
+          right: "15%",
+        }}
+      />
+
+      {/* Layer 4 (deep) */}
+      <motion.div
+        className="absolute w-[450px] h-[450px] rounded-full opacity-[0.03]"
+        style={{
+          y: y4,
+          background: "radial-gradient(circle, rgba(255,107,107,0.1), transparent 70%)",
+          filter: "blur(80px)",
+          top: "75%",
+          left: "20%",
+        }}
+      />
+
+      {/* Floating shapes */}
+      <motion.div
+        className="absolute w-24 h-24 border border-white/[0.025] rounded-2xl"
+        style={{ y: y1, rotate: rotate1, top: "18%", left: "6%" }}
+      />
+      <motion.div
+        className="absolute w-16 h-16 border border-accent/[0.04] rounded-full"
+        style={{ y: y2, top: "50%", right: "10%" }}
+      />
+      <motion.div
+        className="absolute w-14 h-14 border border-white/[0.02] rotate-45"
+        style={{ y: y3, rotate: rotate2, top: "72%", left: "18%" }}
+      />
+      <motion.div
+        className="absolute w-20 h-20 border border-accent/[0.03] rounded-xl"
+        style={{ y: y1, rotate: rotate2, top: "38%", right: "28%" }}
+      />
+      <motion.div
+        className="absolute w-10 h-10 bg-accent/[0.015] rounded-full blur-sm"
+        style={{ y: y3, top: "82%", right: "38%" }}
+      />
+
+      {/* Accent lines */}
+      <motion.div
+        className="absolute h-px w-60 opacity-[0.04]"
+        style={{
+          y: y1,
+          background: "linear-gradient(90deg, transparent, rgba(255,107,107,0.5), transparent)",
+          top: "22%",
+          left: "3%",
+        }}
+      />
+      <motion.div
+        className="absolute h-px w-80 opacity-[0.03]"
+        style={{
+          y: y3,
+          background: "linear-gradient(90deg, transparent, rgba(255,107,107,0.4), transparent)",
+          top: "58%",
+          right: "3%",
+        }}
+      />
+      <motion.div
+        className="absolute w-px h-60 opacity-[0.03]"
+        style={{
+          y: y2,
+          background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.3), transparent)",
+          top: "35%",
+          left: "50%",
         }}
       />
     </div>

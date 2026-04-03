@@ -36,8 +36,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#111111] text-[#F5F5F5]">
+      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-[#F5F5F5]">
         {children}
+        <div className="grain" />
       </body>
     </html>
   );
