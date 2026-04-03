@@ -15,14 +15,14 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <motion.div
-      className="text-center mb-20"
+      className="text-center mb-20 lg:mb-24"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       {tag && (
-        <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-white/[0.06] text-[#888] border border-white/10 mb-4">
+        <span className="inline-block px-4 py-1.5 rounded-full text-[11px] uppercase tracking-[0.2em] font-medium bg-[#ff6b6b]/[0.06] text-[#ff6b6b] border border-[#ff6b6b]/15 mb-5">
           {tag}
         </span>
       )}
@@ -33,7 +33,7 @@ export default function SectionHeading({
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-5 text-lg text-[#888] max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-5 text-lg text-[#888] max-w-xl mx-auto leading-relaxed">
           {subtitle}
         </p>
       )}

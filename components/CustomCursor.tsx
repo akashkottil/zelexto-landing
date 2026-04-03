@@ -11,12 +11,11 @@ export default function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 300 };
+  const springConfig = { damping: 22, stiffness: 280 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Hide on touch devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const moveCursor = (e: MouseEvent) => {
@@ -63,39 +62,33 @@ export default function CustomCursor() {
       {/* Outer ring */}
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference hidden md:block"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-        }}
+        style={{ x: cursorXSpring, y: cursorYSpring }}
       >
         <motion.div
           className="rounded-full border border-white/80"
           animate={{
-            width: isHovering ? 56 : isClicking ? 20 : 36,
-            height: isHovering ? 56 : isClicking ? 20 : 36,
-            x: isHovering ? -28 : isClicking ? -10 : -18,
-            y: isHovering ? -28 : isClicking ? -10 : -18,
+            width: isHovering ? 60 : isClicking ? 18 : 32,
+            height: isHovering ? 60 : isClicking ? 18 : 32,
+            x: isHovering ? -30 : isClicking ? -9 : -16,
+            y: isHovering ? -30 : isClicking ? -9 : -16,
           }}
           transition={{ duration: 0.2 }}
         />
       </motion.div>
 
-      {/* Inner dot — white */}
+      {/* Inner dot */}
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none hidden md:block"
-        style={{
-          x: cursorX,
-          y: cursorY,
-        }}
+        style={{ x: cursorX, y: cursorY }}
       >
         <motion.div
-          className="rounded-full bg-white"
+          className="rounded-full bg-[#ff6b6b]"
           animate={{
-            width: isHovering ? 8 : 6,
-            height: isHovering ? 8 : 6,
-            x: isHovering ? -4 : -3,
-            y: isHovering ? -4 : -3,
-            opacity: isClicking ? 0.5 : 1,
+            width: isHovering ? 8 : 5,
+            height: isHovering ? 8 : 5,
+            x: isHovering ? -4 : -2.5,
+            y: isHovering ? -4 : -2.5,
+            opacity: isClicking ? 0.4 : 1,
           }}
           transition={{ duration: 0.15 }}
         />

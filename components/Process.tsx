@@ -9,44 +9,28 @@ const steps = [
   {
     icon: MessageSquare,
     title: "Idea Discussion",
-    description:
-      "We listen to your vision, understand your goals, and map out the possibilities together.",
+    description: "We listen to your vision, understand your goals, and map out the possibilities.",
     step: "01",
   },
   {
     icon: PenTool,
     title: "Planning & Design",
-    description:
-      "Wireframes, UI/UX design, and technical architecture — all tailored to your needs.",
+    description: "Wireframes, UI/UX design, and technical architecture — tailored to you.",
     step: "02",
   },
   {
     icon: Code2,
     title: "Development",
-    description:
-      "Agile development with regular updates. You see progress every step of the way.",
+    description: "Agile sprints with regular updates. You see progress every step of the way.",
     step: "03",
   },
   {
     icon: Rocket,
     title: "Launch & Support",
-    description:
-      "We deploy, monitor, and support your product post-launch to ensure smooth scaling.",
+    description: "We deploy, monitor, and support your product for smooth scaling.",
     step: "04",
   },
 ];
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.2 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-};
 
 export default function Process() {
   const sectionRef = useRef(null);
@@ -55,88 +39,83 @@ export default function Process() {
     offset: ["start end", "end start"],
   });
 
-  const lineHeight = useTransform(scrollYProgress, [0.1, 0.8], ["0%", "100%"]);
+  const lineHeight = useTransform(scrollYProgress, [0.2, 0.7], ["0%", "100%"]);
 
   return (
-    <section id="process" ref={sectionRef} className="relative py-32 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="process" ref={sectionRef} className="relative py-32 lg:py-40 px-6">
+      <div className="max-w-3xl mx-auto">
         <SectionHeading
-          tag="How We Work"
-          title="Our Process"
+          tag="Process"
+          title="How we work"
           subtitle="Simple, transparent, and built for speed."
         />
 
-        <motion.div
-          className="relative"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {/* Animated timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-white/5 hidden md:block">
-            <motion.div
-              className="w-full bg-gradient-to-b from-white/40 to-white/5"
-              style={{ height: lineHeight }}
-            />
-          </div>
+        {/* Vertical timeline */}
+        <div className="relative">
+          {steps.map((step, index) => {
+            const isLast = index === steps.length - 1;
 
-          <div className="space-y-8">
-            {steps.map((step, index) => (
+            return (
               <motion.div
                 key={step.step}
-                variants={itemVariants}
-                className="flex gap-6 items-start group"
-                whileHover={{ x: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                data-hover
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.12,
+                  ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+                }}
+                className="relative flex gap-6 lg:gap-8"
               >
-                {/* Step number + icon */}
-                <div className="relative flex-shrink-0">
+                {/* Left column: icon + connector line */}
+                <div className="flex flex-col items-center flex-shrink-0">
+                  {/* Icon card — z-10 so it sits above the line */}
                   <motion.div
-                    className="w-16 h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center glow-white-sm"
+                    className="relative z-10 w-[64px] h-[64px] rounded-2xl bg-[#0a0a0a] border border-white/[0.08] flex items-center justify-center group-hover:border-[#ff6b6b]/30 transition-all duration-500"
                     whileHover={{
-                      scale: 1.15,
-                      boxShadow: "0 0 30px rgba(255,255,255,0.15)",
+                      scale: 1.1,
+                      borderColor: "rgba(255,107,107,0.3)",
+                      backgroundColor: "rgba(255,107,107,0.05)",
                     }}
-                    transition={{ type: "spring", stiffness: 300 }}
+                    data-hover
                   >
-                    <step.icon className="text-[#F5F5F5]" size={24} />
+                    <step.icon className="text-[#ff6b6b]" size={22} />
+                    {/* Pulse dot */}
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#ff6b6b]/60"
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0.15, 0.6] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.4 }}
+                    />
                   </motion.div>
-                  {/* Pulse dot — white */}
-                  <motion.div
-                    className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-white/60"
-                    animate={{ scale: [1, 1.3, 1], opacity: [1, 0.4, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
-                  />
+
+                  {/* Vertical connector line — starts BELOW the icon, not behind it */}
+                  {!isLast && (
+                    <div className="w-px flex-1 min-h-[40px] bg-white/[0.04] relative mt-0">
+                      <motion.div
+                        className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#ff6b6b]/40 to-[#ff6b6b]/5"
+                        style={{ height: lineHeight }}
+                      />
+                    </div>
+                  )}
                 </div>
 
-                {/* Content */}
-                <div className="glass rounded-2xl p-6 flex-1 hover:border-white/20 transition-all duration-300 group-hover:bg-white/[0.04]">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[#888] font-bold text-sm font-[family-name:var(--font-space-grotesk)]">
-                      STEP {step.step}
-                    </span>
-                    <motion.div
-                      className="h-px bg-white/15 flex-1"
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: index * 0.2 }}
-                      style={{ originX: 0 }}
-                    />
-                  </div>
-                  <h3 className="text-xl font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2 group-hover:text-white transition-colors duration-300">
+                {/* Right column: content */}
+                <div className={`pb-12 ${isLast ? "pb-0" : ""} flex-1 pt-1`}>
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#ff6b6b] font-medium mb-1.5 block">
+                    Step {step.step}
+                  </span>
+                  <h3 className="text-xl lg:text-2xl font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2 tracking-tight">
                     {step.title}
                   </h3>
-                  <p className="text-[#888] text-sm leading-relaxed">
+                  <p className="text-[#666] text-sm leading-relaxed max-w-md">
                     {step.description}
                   </p>
                 </div>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
