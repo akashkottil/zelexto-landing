@@ -39,68 +39,82 @@ export default function Process() {
     offset: ["start end", "end start"],
   });
 
-  const lineHeight = useTransform(scrollYProgress, [0.15, 0.75], ["0%", "100%"]);
+  const lineHeight = useTransform(scrollYProgress, [0.2, 0.7], ["0%", "100%"]);
 
   return (
     <section id="process" ref={sectionRef} className="relative py-32 lg:py-40 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <SectionHeading
           tag="Process"
           title="How we work"
           subtitle="Simple, transparent, and built for speed."
         />
 
-        {/* Horizontal cards on desktop, vertical on mobile */}
+        {/* Vertical timeline */}
         <div className="relative">
-          {/* Connection line — desktop */}
-          <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-px bg-white/[0.04]">
-            <motion.div
-              className="h-full bg-gradient-to-r from-[#ff6b6b] to-[#ff6b6b]/20"
-              style={{ width: lineHeight }}
-            />
-          </div>
+          {steps.map((step, index) => {
+            const isLast = index === steps.length - 1;
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-5">
-            {steps.map((step, index) => (
+            return (
               <motion.div
                 key={step.step}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -6 }}
-                className="relative group"
-                data-hover
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.12,
+                  ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+                }}
+                className="relative flex gap-6 lg:gap-8"
               >
-                {/* Step circle */}
-                <div className="relative z-10 mb-6">
+                {/* Left column: icon + connector line */}
+                <div className="flex flex-col items-center flex-shrink-0">
+                  {/* Icon card — z-10 so it sits above the line */}
                   <motion.div
-                    className="w-[72px] h-[72px] rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center group-hover:border-[#ff6b6b]/30 group-hover:bg-[#ff6b6b]/[0.05] transition-all duration-500"
-                    whileHover={{ scale: 1.08 }}
+                    className="relative z-10 w-[64px] h-[64px] rounded-2xl bg-[#0a0a0a] border border-white/[0.08] flex items-center justify-center group-hover:border-[#ff6b6b]/30 transition-all duration-500"
+                    whileHover={{
+                      scale: 1.1,
+                      borderColor: "rgba(255,107,107,0.3)",
+                      backgroundColor: "rgba(255,107,107,0.05)",
+                    }}
+                    data-hover
                   >
-                    <step.icon className="text-[#ff6b6b]" size={24} />
+                    <step.icon className="text-[#ff6b6b]" size={22} />
+                    {/* Pulse dot */}
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#ff6b6b]/60"
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0.15, 0.6] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.4 }}
+                    />
                   </motion.div>
-                  {/* Pulse */}
-                  <motion.div
-                    className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[#ff6b6b]/60"
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0.2, 0.6] }}
-                    transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.4 }}
-                  />
+
+                  {/* Vertical connector line — starts BELOW the icon, not behind it */}
+                  {!isLast && (
+                    <div className="w-px flex-1 min-h-[40px] bg-white/[0.04] relative mt-0">
+                      <motion.div
+                        className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#ff6b6b]/40 to-[#ff6b6b]/5"
+                        style={{ height: lineHeight }}
+                      />
+                    </div>
+                  )}
                 </div>
 
-                {/* Content */}
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[#ff6b6b] font-medium mb-2 block">
-                  Step {step.step}
-                </span>
-                <h3 className="text-xl font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2 tracking-tight group-hover:text-[#ff6b6b] transition-colors duration-300">
-                  {step.title}
-                </h3>
-                <p className="text-[#666] text-sm leading-relaxed">
-                  {step.description}
-                </p>
+                {/* Right column: content */}
+                <div className={`pb-12 ${isLast ? "pb-0" : ""} flex-1 pt-1`}>
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#ff6b6b] font-medium mb-1.5 block">
+                    Step {step.step}
+                  </span>
+                  <h3 className="text-xl lg:text-2xl font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2 tracking-tight">
+                    {step.title}
+                  </h3>
+                  <p className="text-[#666] text-sm leading-relaxed max-w-md">
+                    {step.description}
+                  </p>
+                </div>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
