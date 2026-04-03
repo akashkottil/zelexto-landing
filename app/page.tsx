@@ -12,6 +12,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/components/CustomCursor";
 import ParallaxGrid from "@/components/ParallaxGrid";
 import RiveBackground from "@/components/RiveBackground";
+import InteractiveGrid from "@/components/InteractiveGrid";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <CustomCursor />
       <ParallaxGrid />
       <RiveBackground />
+      <InteractiveGrid />
       <Navbar />
       <main className="relative z-10">
         <Hero />
