@@ -1,114 +1,162 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
 const projects = [
   {
     title: "AI Fitness App",
-    category: "Mobile App",
-    description: "AI-powered fitness tracking with personalized workout plans and nutrition guidance.",
+    category: "Mobile · iOS / Android",
+    description:
+      "AI-powered training and nutrition app — personalised, editorial, and quietly powerful.",
     tags: ["React Native", "AI/ML", "Node.js"],
-    color: "#ff6b6b",
-    size: "large",
   },
   {
-    title: "Shopify Store",
+    title: "Shopify Editorial",
     category: "E-commerce",
-    description: "Premium store with custom theme, optimized checkout, and 3x conversion boost.",
-    tags: ["Shopify", "Liquid", "Custom Theme"],
-    color: "#888",
-    size: "small",
+    description:
+      "A premium Shopify store with custom theme and a 3× lift in conversion.",
+    tags: ["Shopify", "Liquid", "Theme Dev"],
   },
   {
     title: "SaaS Dashboard",
-    category: "Web Application",
-    description: "Modern analytics dashboard with real-time data and team collaboration.",
+    category: "Web · Product",
+    description:
+      "Analytics dashboard with real-time data, dark mode, and a design system from day one.",
     tags: ["Next.js", "TypeScript", "PostgreSQL"],
-    color: "#ff8a8a",
-    size: "small",
   },
 ];
 
-export default function Portfolio() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-
+function ProjectVisual({
+  large = false,
+  index = 0,
+}: {
+  large?: boolean;
+  index?: number;
+}) {
   return (
-    <section id="portfolio" ref={sectionRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.03] pointer-events-none"
+    <div
+      className={`relative overflow-hidden ${
+        large ? "h-72 lg:h-[420px]" : "h-44"
+      }`}
+      style={{
+        background:
+          "linear-gradient(135deg, rgba(108,92,231,0.18), rgba(11,16,32,0.6))",
+      }}
+    >
+      {/* fine grid */}
+      <div
+        className="absolute inset-0 opacity-[0.08]"
         style={{
-          y: bgY,
-          background: "radial-gradient(circle, #ff6b6b, transparent 70%)",
-          filter: "blur(100px)",
-          top: "20%",
+          backgroundImage:
+            "linear-gradient(rgba(245,244,240,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(245,244,240,0.4) 1px, transparent 1px)",
+          backgroundSize: large ? "32px 32px" : "22px 22px",
+        }}
+      />
+
+      {/* abstract mockup card */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="rounded-2xl border border-canvas/20 backdrop-blur-sm overflow-hidden"
+          style={{
+            width: large ? "62%" : "70%",
+            height: large ? "68%" : "70%",
+            background: "rgba(11,16,32,0.6)",
+            transform: `rotate(${index % 2 === 0 ? "-3deg" : "4deg"})`,
+            boxShadow: "0 18px 40px rgba(108,92,231,0.28)",
+          }}
+        >
+          <div className="h-6 border-b border-canvas/10 flex items-center px-3 gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-canvas/30" />
+            <span className="w-1.5 h-1.5 rounded-full bg-canvas/30" />
+            <span className="w-1.5 h-1.5 rounded-full bg-violet/60" />
+          </div>
+          <div className="p-4 space-y-2">
+            <div className="h-2 rounded bg-canvas/15 w-3/4" />
+            <div className="h-2 rounded bg-violet/40 w-1/2" />
+            <div className="mt-4 h-12 rounded-lg bg-canvas/[0.04] border border-canvas/10" />
+            <div className="grid grid-cols-3 gap-1.5">
+              <div className="h-6 rounded bg-canvas/[0.04] border border-canvas/10" />
+              <div className="h-6 rounded bg-violet/20 border border-violet/30" />
+              <div className="h-6 rounded bg-canvas/[0.04] border border-canvas/10" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* lime spark corner */}
+      <span
+        className="absolute top-4 left-4 spark-dot"
+        style={{ animationDelay: `${index * 0.3}s` }}
+      />
+
+      {/* hover arrow */}
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="w-9 h-9 rounded-full bg-violet text-canvas flex items-center justify-center">
+          <ArrowUpRight size={16} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Portfolio() {
+  return (
+    <section
+      id="portfolio"
+      className="relative py-28 lg:py-36 px-6 overflow-hidden"
+    >
+      <div
+        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.13] pointer-events-none drift"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(108,92,231,0.55), transparent 70%)",
+          filter: "blur(120px)",
+          top: "30%",
           right: "-10%",
         }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <SectionHeading
-          tag="Portfolio"
-          title="Recent work"
-          subtitle="A glimpse into what we build."
+          tag="Selected work"
+          version="/ 05"
+          title={
+            <>
+              Recent <span className="italic-violet">things.</span>
+            </>
+          }
+          subtitle="A glimpse into what we build — more on request."
         />
 
-        {/* Asymmetric grid — Shopify Editions style */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {/* Featured large card */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Featured */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ y: -8 }}
-            className="lg:row-span-2 group rounded-3xl border border-white/[0.06] bg-white/[0.02] overflow-hidden hover:border-[#ff6b6b]/20 transition-all duration-500 cursor-pointer"
-            data-hover
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -4 }}
+            className="lg:row-span-2 group rounded-3xl border border-canvas/[0.06] bg-canvas/[0.02] overflow-hidden hover:border-violet/30 transition-colors duration-400 cursor-pointer"
           >
-            {/* Image area */}
-            <div className="h-64 lg:h-[55%] relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${projects[0].color}15, ${projects[0].color}05)` }}>
-              <div
-                className="absolute inset-0 opacity-[0.08]"
-                style={{
-                  backgroundImage: "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
-                  backgroundSize: "24px 24px",
-                }}
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  className="w-20 h-20 rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur flex items-center justify-center"
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 6, repeat: Infinity }}
-                >
-                  <span className="text-3xl">🏋️</span>
-                </motion.div>
-              </div>
-              <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
-                  <ArrowUpRight size={18} className="text-white" />
-                </div>
-              </div>
-            </div>
-
+            <ProjectVisual large index={0} />
             <div className="p-7 lg:p-8">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#ff6b6b] mb-2 block">{projects[0].category}</span>
-              <h3 className="text-2xl lg:text-3xl font-bold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-3 tracking-tight group-hover:text-[#ff6b6b] transition-colors duration-300">
+              <span className="micro-label block mb-2 text-violet-soft">
+                {projects[0].category}
+              </span>
+              <h3 className="font-display text-3xl lg:text-4xl text-canvas mb-3">
                 {projects[0].title}
               </h3>
-              <p className="text-[#888] text-sm leading-relaxed mb-5">
+              <p className="text-graphite-soft text-base leading-relaxed mb-5 max-w-lg">
                 {projects[0].description}
               </p>
               <div className="flex flex-wrap gap-2">
                 {projects[0].tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 rounded-full text-[11px] bg-white/[0.04] text-[#888] border border-white/[0.06]">
+                  <span
+                    key={tag}
+                    className="px-3 py-1 rounded-full text-[11px] bg-canvas/[0.04] text-graphite-soft border border-canvas/[0.08]"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -116,47 +164,38 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
-          {/* Two smaller cards */}
-          {projects.slice(1).map((project, index) => (
+          {/* Smaller */}
+          {projects.slice(1).map((project, idx) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: (index + 1) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6 }}
-              className="group rounded-3xl border border-white/[0.06] bg-white/[0.02] overflow-hidden hover:border-[#ff6b6b]/20 transition-all duration-500 cursor-pointer"
-              data-hover
+              transition={{
+                duration: 0.7,
+                delay: (idx + 1) * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={{ y: -4 }}
+              className="group rounded-3xl border border-canvas/[0.06] bg-canvas/[0.02] overflow-hidden hover:border-violet/30 transition-colors duration-400 cursor-pointer"
             >
-              <div className="h-40 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${project.color}12, ${project.color}04)` }}>
-                <div
-                  className="absolute inset-0 opacity-[0.06]"
-                  style={{
-                    backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                    backgroundSize: "20px 20px",
-                  }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl">{index === 0 ? "🛍️" : "📊"}</span>
-                </div>
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
-                    <ArrowUpRight size={14} className="text-white" />
-                  </div>
-                </div>
-              </div>
-
+              <ProjectVisual index={idx + 1} />
               <div className="p-6">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[#666] mb-1.5 block">{project.category}</span>
-                <h3 className="text-lg font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-2 tracking-tight group-hover:text-[#ff6b6b] transition-colors duration-300">
+                <span className="micro-label block mb-2 text-violet-soft">
+                  {project.category}
+                </span>
+                <h3 className="font-display text-2xl text-canvas mb-2">
                   {project.title}
                 </h3>
-                <p className="text-[#666] text-sm leading-relaxed mb-4">
+                <p className="text-graphite-soft text-sm leading-relaxed mb-4">
                   {project.description}
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="px-2.5 py-0.5 rounded-full text-[10px] bg-white/[0.04] text-[#888] border border-white/[0.06]">
+                    <span
+                      key={tag}
+                      className="px-2.5 py-0.5 rounded-full text-[10px] bg-canvas/[0.04] text-graphite-soft border border-canvas/[0.08]"
+                    >
                       {tag}
                     </span>
                   ))}

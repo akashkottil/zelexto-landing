@@ -9,16 +9,15 @@ export default function WhatsAppButton() {
       href="https://wa.me/918590090380"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg pulse-green"
-      initial={{ opacity: 0, scale: 0, rotate: -180 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-      transition={{ type: "spring", stiffness: 180, delay: 2 }}
-      whileHover={{ scale: 1.12, rotate: 8 }}
-      whileTap={{ scale: 0.9 }}
+      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-violet text-canvas flex items-center justify-center shadow-[0_8px_24px_rgba(108,92,231,0.45)] pulse-violet"
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: "spring", stiffness: 180, delay: 1.5 }}
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.92 }}
       aria-label="Chat on WhatsApp"
-      data-hover
     >
-      <MessageCircle className="text-white" size={24} />
+      <MessageCircle size={22} />
     </motion.a>
   );
 }

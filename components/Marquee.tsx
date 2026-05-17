@@ -1,26 +1,32 @@
 "use client";
 
 const words = [
-  "MVP Development",
-  "AI Integration",
-  "Shopify Stores",
-  "Landing Pages",
-  "Backend APIs",
-  "Digital Marketing",
-  "SaaS Platforms",
+  "Web Experiences",
   "Mobile Apps",
+  "Brand Systems",
+  "AI Integration",
+  "Design Systems",
+  "Landing Pages",
+  "Editorial Sites",
+  "Product Design",
 ];
 
 export default function Marquee() {
   return (
-    <div className="relative py-8 overflow-hidden border-y border-white/[0.04]">
+    <div className="relative py-10 overflow-hidden border-y border-canvas/[0.05] bg-ink-deep/40">
       <div className="marquee flex whitespace-nowrap">
         {[...words, ...words].map((word, i) => (
-          <span key={i} className="flex items-center gap-8 mx-8">
-            <span className="text-[clamp(1rem,2vw,1.5rem)] font-[family-name:var(--font-space-grotesk)] font-medium text-[#333] uppercase tracking-[0.15em]">
+          <span key={i} className="flex items-center gap-10 mx-8">
+            <span
+              className="font-display text-[clamp(1.5rem,3vw,2.25rem)] text-canvas/40"
+              style={{ letterSpacing: "-0.02em" }}
+            >
               {word}
             </span>
-            <span className="w-2 h-2 rounded-full bg-[#ff6b6b]/30" />
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: "rgba(108,92,231,0.5)" }}
+            />
           </span>
         ))}
       </div>

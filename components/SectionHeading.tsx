@@ -1,39 +1,65 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 interface SectionHeadingProps {
-  title: string;
+  /** Display title with optional <em> tags around emphasis word for italic violet */
+  title: ReactNode;
   subtitle?: string;
   tag?: string;
+  /** "/ 01" style version label */
+  version?: string;
+  align?: "left" | "center";
 }
 
 export default function SectionHeading({
   title,
   subtitle,
   tag,
+  version,
+  align = "center",
 }: SectionHeadingProps) {
+  const alignCls = align === "center" ? "text-center mx-auto" : "text-left";
+  const subAlign = align === "center" ? "mx-auto" : "";
+
   return (
     <motion.div
-      className="text-center mb-20 lg:mb-24"
-      initial={{ opacity: 0, y: 30 }}
+      className={`mb-16 lg:mb-20 max-w-3xl ${alignCls}`}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      {tag && (
-        <span className="inline-block px-4 py-1.5 rounded-full text-[11px] uppercase tracking-[0.2em] font-medium bg-[#ff6b6b]/[0.06] text-[#ff6b6b] border border-[#ff6b6b]/15 mb-5">
-          {tag}
-        </span>
+      {(tag || version) && (
+        <div
+          className={`flex items-center gap-3 mb-6 ${
+            align === "center" ? "justify-center" : ""
+          }`}
+        >
+          {tag && (
+            <span className="inline-flex items-center gap-2 micro-label text-violet-soft">
+              <span className="spark-dot" />
+              {tag}
+            </span>
+          )}
+          {version && (
+            <span className="micro-label text-graphite">{version}</span>
+          )}
+        </div>
       )}
+
       <h2
-        className="text-4xl md:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] tracking-tight"
-        style={{ letterSpacing: "-0.03em" }}
+        className="font-display text-4xl md:text-5xl lg:text-6xl text-canvas leading-[1.05]"
+        style={{ letterSpacing: "-0.025em" }}
       >
         {title}
       </h2>
+
       {subtitle && (
-        <p className="mt-5 text-lg text-[#888] max-w-xl mx-auto leading-relaxed">
+        <p
+          className={`mt-5 text-base lg:text-lg text-graphite-soft max-w-xl leading-relaxed ${subAlign}`}
+        >
           {subtitle}
         </p>
       )}

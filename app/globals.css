@@ -1,20 +1,36 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   Zelexto brand tokens
+   ───────────────────────────────────────────── */
 :root {
-  --background: #0a0a0a;
-  --foreground: #F5F5F5;
-  --accent: #ff6b6b;
-  --accent-light: #ff8a8a;
-  --accent-glow: rgba(255, 107, 107, 0.15);
+  --ink: #0B1020;
+  --ink-deep: #06091A;
+  --canvas: #F5F4F0;
+  --violet: #6C5CE7;
+  --violet-soft: #8B7BF0;
+  --violet-deep: #4A3DC9;
+  --lime: #D4FF4F;
+  --graphite: #5B6475;
+  --graphite-soft: #8B95A8;
+
+  --easing-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: #ff6b6b;
-  --color-accent-light: #ff8a8a;
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-space-grotesk);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-canvas: var(--canvas);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-violet-deep: var(--violet-deep);
+  --color-lime: var(--lime);
+  --color-graphite: var(--graphite);
+  --color-graphite-soft: var(--graphite-soft);
+
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
 html {
@@ -22,166 +38,242 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--canvas);
+  font-family: var(--font-geist), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  letter-spacing: -0.01em;
 }
 
-/* Hide default cursor on desktop */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
+/* ─────────────────────────────────────────────
+   Selection
+   ───────────────────────────────────────────── */
+::selection {
+  background: rgba(108, 92, 231, 0.35);
+  color: var(--canvas);
+}
+
+/* ─────────────────────────────────────────────
+   Scrollbar
+   ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--violet);
+}
+
+/* ─────────────────────────────────────────────
+   Typography utilities
+   ───────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.font-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.italic-violet {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  color: var(--violet-soft);
+  font-weight: 400;
+}
+
+.italic-violet-dark {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  color: var(--violet);
+  font-weight: 400;
+}
+
+.micro-label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--graphite-soft);
+}
+
+/* ─────────────────────────────────────────────
+   Buttons — brand
+   ───────────────────────────────────────────── */
+.btn-violet {
+  background: var(--violet);
+  color: var(--canvas);
+  transition: all 0.4s var(--easing-cinematic);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--violet);
+}
+.btn-violet:hover {
+  background: var(--violet-soft);
+  border-color: var(--violet-soft);
+  box-shadow: 0 12px 30px rgba(108, 92, 231, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-canvas {
+  background: var(--canvas);
+  color: var(--ink);
+  transition: all 0.4s var(--easing-cinematic);
+  border: 1px solid var(--canvas);
+}
+.btn-canvas:hover {
+  box-shadow: 0 12px 30px rgba(245, 244, 240, 0.18);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--canvas);
+  border: 1px solid rgba(245, 244, 240, 0.18);
+  transition: all 0.4s var(--easing-cinematic);
+}
+.btn-ghost:hover {
+  background: rgba(108, 92, 231, 0.08);
+  border-color: rgba(108, 92, 231, 0.45);
+}
+
+.btn-lime {
+  background: var(--lime);
+  color: var(--ink);
+  transition: all 0.4s var(--easing-cinematic);
+  border: 1px solid var(--lime);
+}
+.btn-lime:hover {
+  box-shadow: 0 0 32px rgba(212, 255, 79, 0.35);
+  transform: translateY(-2px);
+}
+
+/* ─────────────────────────────────────────────
+   Spark dot (lime "active" indicator)
+   ───────────────────────────────────────────── */
+@keyframes spark-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 255, 79, 0.55), 0 0 8px rgba(212, 255, 79, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(212, 255, 79, 0), 0 0 12px rgba(212, 255, 79, 0.2);
   }
 }
 
-/* Glassmorphism */
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.spark-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--lime);
+  animation: spark-pulse 2.5s var(--easing-cinematic) infinite;
 }
 
-.glass-hover:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 107, 107, 0.2);
-}
-
-/* Accent glow */
-.glow-accent {
-  box-shadow: 0 0 30px rgba(255, 107, 107, 0.12), 0 0 80px rgba(255, 107, 107, 0.05);
-}
-
-.text-glow-accent {
-  text-shadow: 0 0 30px rgba(255, 107, 107, 0.4), 0 0 60px rgba(255, 107, 107, 0.15);
-}
-
-/* Primary button — white bg, black text */
-.btn-primary {
-  background: #F5F5F5;
-  color: #0a0a0a;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* ─────────────────────────────────────────────
+   Corner crosshair ticks (geometric micro-element)
+   ───────────────────────────────────────────── */
+.tile-corners {
   position: relative;
-  overflow: hidden;
 }
-
-.btn-primary::before {
-  content: '';
+.tile-corners::before,
+.tile-corners::after,
+.tile-corners > .tile-corner-tl,
+.tile-corners > .tile-corner-br {
+  content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.4), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-
-.btn-primary:hover::before {
-  transform: translateX(100%);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Secondary button — bordered */
-.btn-secondary {
-  background: transparent;
-  color: #F5F5F5;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 107, 107, 0.3);
-  box-shadow: 0 0 25px rgba(255, 107, 107, 0.08);
-}
-
-/* Accent button */
-.btn-accent {
-  background: linear-gradient(135deg, #ff6b6b, #ff8a8a);
-  color: white;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-accent:hover {
-  box-shadow: 0 0 40px rgba(255, 107, 107, 0.3), 0 0 80px rgba(255, 107, 107, 0.1);
-  transform: translateY(-2px);
-}
-
-/* WhatsApp pulse */
-@keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-  50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
-}
-
-.pulse-green {
-  animation: pulse-green 2.5s infinite;
-}
-
-/* Horizontal scroll section */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ff6b6b;
-}
-
-/* Selection */
-::selection {
-  background: rgba(255, 107, 107, 0.25);
-  color: white;
-}
-
-/* Grain texture */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
+  width: 10px;
+  height: 10px;
+  opacity: 0.4;
   pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.tile-corners::before {
+  top: -5px;
+  left: -5px;
+  border-left: 1px solid var(--graphite-soft);
+  border-top: 1px solid var(--graphite-soft);
+}
+.tile-corners::after {
+  bottom: -5px;
+  right: -5px;
+  border-right: 1px solid var(--graphite-soft);
+  border-bottom: 1px solid var(--graphite-soft);
 }
 
-/* Section divider */
+/* ─────────────────────────────────────────────
+   Section divider
+   ───────────────────────────────────────────── */
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(108, 92, 231, 0.18),
+    transparent
+  );
 }
 
-/* Marquee */
+/* ─────────────────────────────────────────────
+   Marquee
+   ───────────────────────────────────────────── */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-
 .marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 40s linear infinite;
+  will-change: transform;
 }
 
-/* Spotlight gradient */
-.spotlight {
-  background: radial-gradient(ellipse 600px 400px at var(--x, 50%) var(--y, 50%), rgba(255,107,107,0.06), transparent);
+/* ─────────────────────────────────────────────
+   Atmospheric drift (slow radial bg)
+   ───────────────────────────────────────────── */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(20px, -30px, 0) scale(1.05); }
+}
+.drift {
+  animation: drift 16s ease-in-out infinite;
+  will-change: transform;
+}
+.drift-slow {
+  animation: drift 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────
+   Hide scrollbar (horizontal scroll rows)
+   ───────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─────────────────────────────────────────────
+   Reduced motion
+   ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   WhatsApp pulse (kept for utility button)
+   ───────────────────────────────────────────── */
+@keyframes pulse-violet {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(108, 92, 231, 0); }
+}
+.pulse-violet {
+  animation: pulse-violet 2.5s infinite;
 }

@@ -5,67 +5,63 @@ import SectionHeading from "./SectionHeading";
 
 const audiences = [
   {
-    title: "Startup Founders",
-    description: "Turn your idea into a funded, market-ready product.",
-    icon: "🚀",
-    accent: true,
+    title: "Founders",
+    description: "Turning a sharp idea into a credible, fundable product.",
+    label: "Stage / 0–1",
   },
   {
-    title: "SaaS Builders",
-    description: "Build scalable SaaS platforms with modern architecture.",
-    icon: "☁️",
-    accent: false,
+    title: "SaaS Teams",
+    description: "Modern interfaces for modern products. Scale-ready.",
+    label: "Stage / 1–N",
   },
   {
-    title: "E-commerce Brands",
-    description: "Launch and grow your online store with proven strategies.",
-    icon: "🛍️",
-    accent: false,
+    title: "E-commerce",
+    description: "Editorial storefronts that sell without shouting.",
+    label: "DTC · Retail",
   },
   {
-    title: "Entrepreneurs",
-    description: "From side hustle to full business — we help you scale.",
-    icon: "📈",
-    accent: true,
+    title: "Studios & Agencies",
+    description: "Co-build partner for overflow work and specialist engagements.",
+    label: "Partner",
   },
 ];
 
 export default function Audience() {
   return (
-    <section className="relative py-32 lg:py-40 px-6">
+    <section className="relative py-28 lg:py-36 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
-          tag="Who We Serve"
-          title="Built for builders"
-          subtitle="Whether you're bootstrapping or scaling — we've got you."
+          tag="Who we serve"
+          version="/ 04"
+          title={
+            <>
+              Built for the <span className="italic-violet">curious.</span>
+            </>
+          }
+          subtitle="From first MVP to mature design system — we move with you."
         />
 
-        {/* Overflow-visible wrapper so hover scale/translate doesn't clip */}
         <div className="overflow-visible">
-          {/* Mobile: horizontal scroll with extra padding for hover room; Desktop: grid */}
-          <div className="flex lg:grid lg:grid-cols-4 gap-5 overflow-x-auto lg:overflow-visible hide-scrollbar py-4 -mx-6 px-6 lg:mx-0 lg:px-0">
+          <div className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible hide-scrollbar py-2 -mx-6 px-6 lg:mx-0 lg:px-0">
             {audiences.map((item, index) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className={`min-w-[260px] lg:min-w-0 group p-7 rounded-2xl border transition-all duration-500 cursor-default ${
-                  item.accent
-                    ? "border-[#ff6b6b]/15 bg-[#ff6b6b]/[0.03] hover:border-[#ff6b6b]/30"
-                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12]"
-                }`}
-                data-hover
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{ y: -4 }}
+                className="min-w-[260px] lg:min-w-0 group p-7 rounded-2xl border border-canvas/[0.06] bg-canvas/[0.02] hover:border-violet/30 hover:bg-violet/[0.04] transition-colors duration-400 cursor-default"
               >
-                <span className="text-4xl mb-5 block">{item.icon}</span>
-                <h3 className={`text-lg font-semibold font-[family-name:var(--font-space-grotesk)] mb-2 tracking-tight ${
-                  item.accent ? "text-[#ff6b6b]" : "text-[#F5F5F5]"
-                }`}>
+                <span className="micro-label block mb-5">{item.label}</span>
+                <h3 className="font-display text-2xl text-canvas mb-3">
                   {item.title}
                 </h3>
-                <p className="text-[#666] text-sm leading-relaxed">
+                <p className="text-graphite-soft text-sm leading-relaxed">
                   {item.description}
                 </p>
               </motion.div>

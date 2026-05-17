@@ -1,20 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, Phone, ArrowRight } from "lucide-react";
+import { MessageCircle, Phone, ArrowUpRight } from "lucide-react";
 import ContactForm from "./ContactForm";
-import MagneticButton from "./MagneticButton";
 
 export default function FinalCTA() {
   return (
-    <section id="contact" className="relative py-32 lg:py-40 px-6 overflow-hidden">
-      {/* Big gradient */}
+    <section
+      id="contact"
+      className="relative py-28 lg:py-36 px-6 overflow-hidden"
+    >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div
-          className="w-[800px] h-[800px] rounded-full opacity-[0.06]"
+          className="w-[900px] h-[900px] rounded-full opacity-[0.18] drift"
           style={{
-            background: "radial-gradient(circle, #ff6b6b, transparent 65%)",
-            filter: "blur(120px)",
+            background:
+              "radial-gradient(circle, rgba(108,92,231,0.55), transparent 60%)",
+            filter: "blur(130px)",
           }}
         />
       </div>
@@ -22,106 +24,104 @@ export default function FinalCTA() {
       <div className="relative z-10 max-w-6xl mx-auto">
         <motion.div
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
+          <span className="micro-label inline-flex items-center gap-2 mb-6 text-violet-soft">
+            <span className="spark-dot" />
+            Let&apos;s talk
+          </span>
           <h2
-            className="text-4xl md:text-5xl lg:text-7xl font-bold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-5 tracking-tight"
+            className="font-display text-4xl md:text-5xl lg:text-7xl text-canvas leading-[1.02]"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Let&apos;s build something{" "}
-            <motion.span
-              className="text-[#ff6b6b] text-glow-accent inline-block"
-              animate={{
-                textShadow: [
-                  "0 0 20px rgba(255,107,107,0.3), 0 0 60px rgba(255,107,107,0.1)",
-                  "0 0 40px rgba(255,107,107,0.5), 0 0 80px rgba(255,107,107,0.15)",
-                  "0 0 20px rgba(255,107,107,0.3), 0 0 60px rgba(255,107,107,0.1)",
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              powerful
-            </motion.span>
+            A new era of <span className="italic-violet">digital.</span>
           </h2>
-          <p className="text-lg text-[#888] max-w-xl mx-auto leading-relaxed">
-            Ready to bring your idea to life? Let&apos;s start building.
+          <p className="mt-6 text-base lg:text-lg text-graphite-soft max-w-xl mx-auto leading-relaxed">
+            Tell us about your product. We&apos;ll come back to you within 24
+            hours.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Left */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <motion.div
-            className="space-y-5"
-            initial={{ opacity: 0, x: -30 }}
+            className="space-y-4"
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8">
-              <h3 className="text-2xl font-semibold font-[family-name:var(--font-space-grotesk)] text-[#F5F5F5] mb-6 tracking-tight">
-                Get in touch
+            <div className="rounded-2xl border border-canvas/[0.06] bg-canvas/[0.02] p-8">
+              <h3 className="font-display text-2xl text-canvas mb-1">
+                Talk to a human
               </h3>
+              <p className="text-graphite-soft text-sm mb-6">
+                Hello@zelexto.com — or pick your channel.
+              </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <motion.a
                   href="https://wa.me/918590090380"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-[#25D366]/30 hover:bg-[#25D366]/[0.04] transition-all duration-300"
+                  className="flex items-center gap-4 p-4 rounded-xl border border-canvas/[0.06] bg-canvas/[0.02] hover:border-violet/30 hover:bg-violet/[0.04] transition-colors duration-300"
                   whileHover={{ x: 4 }}
-                  data-hover
                 >
-                  <div className="w-12 h-12 rounded-full bg-[#25D366]/15 flex items-center justify-center">
-                    <MessageCircle className="text-[#25D366]" size={22} />
+                  <div className="w-11 h-11 rounded-full bg-violet/15 border border-violet/30 flex items-center justify-center">
+                    <MessageCircle className="text-violet-soft" size={20} />
                   </div>
                   <div className="flex-1">
-                    <span className="text-[#F5F5F5] font-medium block text-sm">Chat on WhatsApp</span>
-                    <span className="text-[#666] text-xs">Usually responds in minutes</span>
+                    <span className="text-canvas font-medium block text-sm">
+                      WhatsApp
+                    </span>
+                    <span className="text-graphite-soft text-xs">
+                      Replies in minutes
+                    </span>
                   </div>
-                  <ArrowRight size={16} className="text-[#666]" />
+                  <ArrowUpRight size={16} className="text-graphite" />
                 </motion.a>
 
                 <motion.a
                   href="tel:+918590090380"
-                  className="flex items-center gap-4 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-[#ff6b6b]/20 hover:bg-[#ff6b6b]/[0.03] transition-all duration-300"
+                  className="flex items-center gap-4 p-4 rounded-xl border border-canvas/[0.06] bg-canvas/[0.02] hover:border-violet/30 hover:bg-violet/[0.04] transition-colors duration-300"
                   whileHover={{ x: 4 }}
-                  data-hover
                 >
-                  <div className="w-12 h-12 rounded-full bg-[#ff6b6b]/10 flex items-center justify-center">
-                    <Phone className="text-[#ff6b6b]" size={22} />
+                  <div className="w-11 h-11 rounded-full bg-violet/15 border border-violet/30 flex items-center justify-center">
+                    <Phone className="text-violet-soft" size={20} />
                   </div>
                   <div className="flex-1">
-                    <span className="text-[#F5F5F5] font-medium block text-sm">Book a call</span>
-                    <span className="text-[#666] text-xs">Let&apos;s discuss your project</span>
+                    <span className="text-canvas font-medium block text-sm">
+                      Book a call
+                    </span>
+                    <span className="text-graphite-soft text-xs">
+                      30-min, no pitch
+                    </span>
                   </div>
-                  <ArrowRight size={16} className="text-[#666]" />
+                  <ArrowUpRight size={16} className="text-graphite" />
                 </motion.a>
               </div>
             </div>
 
-            {/* Quick CTA */}
-            <div className="text-center lg:text-left">
-              <MagneticButton
-                href="https://wa.me/918590090380"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-accent px-8 py-4 rounded-full text-base font-semibold inline-flex items-center gap-2"
-              >
-                Start Your Project
-                <ArrowRight size={18} />
-              </MagneticButton>
+            {/* Coordinates */}
+            <div className="rounded-2xl border border-canvas/[0.06] bg-canvas/[0.02] p-6">
+              <span className="micro-label block mb-2">Studio</span>
+              <p className="text-canvas">
+                Kochi, Kerala —{" "}
+                <span className="italic-violet">India.</span>
+              </p>
+              <p className="micro-label mt-2 text-graphite">
+                09°56&apos;N · 76°15&apos;E
+              </p>
             </div>
           </motion.div>
 
-          {/* Right: form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <ContactForm />
           </motion.div>

@@ -9,18 +9,12 @@ import Portfolio from "@/components/Portfolio";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import CustomCursor from "@/components/CustomCursor";
-import ParallaxGrid from "@/components/ParallaxGrid";
-import RiveBackground from "@/components/RiveBackground";
-import InteractiveGrid from "@/components/InteractiveGrid";
+import Atmosphere from "@/components/Atmosphere";
 
 export default function Home() {
   return (
     <>
-      <CustomCursor />
-      <ParallaxGrid />
-      <RiveBackground />
-      <InteractiveGrid />
+      <Atmosphere />
       <Navbar />
       <main className="relative z-10">
         <Hero />

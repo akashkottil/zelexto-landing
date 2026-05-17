@@ -1,28 +1,39 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Zelexto — Build Your Startup Faster with AI-Powered Apps & MVPs",
+  title: "Zelexto Studio — Web experiences built to stand out",
   description:
-    "From idea to launch — we design, develop, and scale your product with speed, precision, and personal support. MVP development, AI integration, Shopify, and more.",
+    "A digital studio crafting premium websites, mobile apps, and brand systems. Built in Kochi, working with clients across India and beyond.",
   keywords: [
-    "startup development",
-    "MVP development",
-    "AI integration",
-    "Shopify",
-    "digital agency",
-    "web development",
+    "digital studio",
+    "web design",
+    "app development",
+    "branding",
+    "UI/UX design",
+    "Kochi",
+    "Kerala",
   ],
 };
 
@@ -34,11 +45,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-[#F5F5F5]">
+      <body className="min-h-full flex flex-col bg-ink text-canvas">
         {children}
-        <div className="grain" />
       </body>
     </html>
   );
