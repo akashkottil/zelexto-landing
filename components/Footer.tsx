@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
-            <Logo variant="lockup" size="md" />
+            <Logo variant="wordmark" size="md" />
             <p className="text-graphite-soft text-sm mt-5 leading-relaxed max-w-xs">
               A digital studio crafting premium websites, mobile apps, and brand
               systems.

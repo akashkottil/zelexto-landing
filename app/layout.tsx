@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import Loader from "@/components/Loader";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -48,6 +49,7 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-canvas">
+        <Loader />
         {children}
       </body>
     </html>
