@@ -2,10 +2,11 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import Logo from "./Logo";
 
 const footerLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Work", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Process", href: "/#process" },
+  { label: "Work", href: "/#portfolio" },
+  { label: "Cafe", href: "/cafe" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
