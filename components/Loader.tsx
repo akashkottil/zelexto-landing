@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { markLoaded } from "./loaderState";
 
 const WORD = "zelexto";
 const SUFFIX = ".studio";
@@ -23,7 +24,10 @@ export default function Loader() {
     const hide = () => {
       const elapsed = Date.now() - start;
       const wait = Math.max(0, MIN_DISPLAY - elapsed);
-      window.setTimeout(() => setVisible(false), wait);
+      window.setTimeout(() => {
+        setVisible(false);
+        markLoaded(); // hero entrances start as the loader fades
+      }, wait);
     };
 
     if (document.readyState === "complete") {
@@ -58,14 +62,6 @@ export default function Loader() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           aria-hidden
         >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(108,92,231,0.14) 0%, transparent 60%)",
-            }}
-          />
-
           <div className="relative flex flex-col items-center px-6">
             <span
               className="font-display italic tracking-tight leading-none inline-flex items-baseline"
@@ -134,7 +130,7 @@ export default function Loader() {
               style={{
                 width: "clamp(140px, 18vw, 220px)",
                 height: 1,
-                background: "rgba(245,244,240,0.08)",
+                background: "color-mix(in srgb, var(--canvas) 8%, transparent)",
               }}
             >
               <motion.div

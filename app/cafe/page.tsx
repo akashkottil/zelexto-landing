@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Atmosphere from "@/components/Atmosphere";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 export default function CafePage() {
   return (
     <>
-      <Atmosphere />
       <Navbar />
       <main className="relative z-10">
         <CafeShowcase />

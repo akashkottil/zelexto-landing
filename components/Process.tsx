@@ -1,114 +1,53 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { MessageSquare, PenTool, Code2, Rocket } from "lucide-react";
-import SectionHeading from "./SectionHeading";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const steps = [
-  {
-    icon: MessageSquare,
-    title: "Discover",
-    description:
-      "We listen — to the problem, the audience, and what makes the brand unmistakable.",
-    step: "01",
-  },
-  {
-    icon: PenTool,
-    title: "Design",
-    description:
-      "Wireframes, identity, interface — designed in the open, iterated with you in the loop.",
-    step: "02",
-  },
-  {
-    icon: Code2,
-    title: "Build",
-    description:
-      "Senior-led engineering in tight, transparent sprints. You see the work as it lands.",
-    step: "03",
-  },
-  {
-    icon: Rocket,
-    title: "Launch",
-    description:
-      "Ship, measure, iterate. We stay close long after the launch tweet is sent.",
-    step: "04",
-  },
+  { title: "Discover", line: "We learn the problem, the audience and the one idea worth leading with." },
+  { title: "Design", line: "Identity and interface, shaped in the open with you in the loop." },
+  { title: "Build", line: "Senior-led engineering in short sprints. You see the work as it lands." },
+  { title: "Launch", line: "Ship, measure, refine. We stay close long after go-live." },
 ];
 
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
 export default function Process() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const lineHeight = useTransform(scrollYProgress, [0.2, 0.75], ["0%", "100%"]);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.6"] });
+  const line = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="process" ref={sectionRef} className="relative py-28 lg:py-36 px-6">
-      <div className="max-w-3xl mx-auto">
-        <SectionHeading
-          tag="How we work"
-          version="/ 03"
-          title={
-            <>
-              Simple, transparent, <span className="italic-violet">deliberate.</span>
-            </>
-          }
-          subtitle="One sprint at a time. No surprises."
-        />
+    <section id="process" className="relative px-6 lg:px-10 py-32 lg:py-44">
+      <div className="max-w-[1400px] mx-auto">
+        <p className="micro-label mb-6">How we work</p>
+        <h2 className="font-display text-canvas text-5xl lg:text-7xl leading-[0.95] max-w-3xl" style={{ letterSpacing: "-0.03em" }}>
+          From first call to <span className="italic-violet">launch.</span>
+        </h2>
 
-        <div className="relative">
-          {steps.map((step, index) => {
-            const isLast = index === steps.length - 1;
+        <div ref={ref} className="relative mt-20 lg:mt-28">
+          <span className="hidden lg:block absolute left-0 right-0 top-0 h-px bg-canvas/10" />
+          <motion.span className="hidden lg:block absolute left-0 right-0 top-0 h-px bg-canvas origin-left" style={{ scaleX: line }} />
 
-            return (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 32 }}
+          <ol className="grid gap-12 lg:grid-cols-4 lg:gap-10">
+            {steps.map((s, i) => (
+              <motion.li
+                key={s.title}
+                className="relative pl-6 lg:pl-0 lg:pt-10 border-l border-canvas/10 lg:border-0"
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  duration: 0.7,
-                  delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="relative flex gap-6 lg:gap-8"
+                viewport={{ once: true, margin: "-15% 0px" }}
+                transition={{ duration: 0.9, delay: i * 0.12, ease }}
               >
-                <div className="flex flex-col items-center flex-shrink-0">
-                  <div className="relative z-10 w-[64px] h-[64px] rounded-2xl bg-ink border border-violet/25 flex items-center justify-center transition-all duration-400 hover:border-violet/60 hover:bg-violet/[0.06]">
-                    <step.icon className="text-violet-soft" size={22} />
-                    <span className="absolute -top-1 -right-1 spark-dot" />
-                  </div>
-
-                  {!isLast && (
-                    <div className="w-px flex-1 min-h-[40px] bg-canvas/[0.06] relative">
-                      <motion.div
-                        className="absolute top-0 left-0 w-full"
-                        style={{
-                          height: lineHeight,
-                          background:
-                            "linear-gradient(180deg, rgba(108,92,231,0.6), rgba(108,92,231,0.1))",
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className={`flex-1 pt-1 ${isLast ? "pb-0" : "pb-14"}`}>
-                  <span className="micro-label block mb-2">
-                    Step / {step.step}
-                  </span>
-                  <h3 className="font-display text-2xl lg:text-3xl text-canvas mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-graphite-soft text-base leading-relaxed max-w-md">
-                    {step.description}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+                <span className="hidden lg:block absolute -top-[3px] left-0 w-[7px] h-[7px] rounded-full bg-canvas" />
+                <span className="font-mono text-[10px] tracking-[0.2em] text-graphite">0{i + 1}</span>
+                <h3 className="mt-3 font-display text-canvas text-3xl lg:text-4xl" style={{ letterSpacing: "-0.02em" }}>
+                  {s.title}
+                </h3>
+                <p className="mt-3 text-graphite-soft leading-relaxed max-w-xs">{s.line}</p>
+              </motion.li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
