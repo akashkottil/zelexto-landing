@@ -3,18 +3,34 @@
 /* ─────────────────────────────────────────────
    Zelexto brand tokens
    ───────────────────────────────────────────── */
-:root {
-  --ink: #0B1020;
-  --ink-deep: #06091A;
+/* Monochrome surfaces; brand colour only lives in type, the 3D ribbon and the lime status dot.
+   "ink" is always the page background and "canvas" the text, so they swap per theme. */
+:root,
+:root[data-theme="dark"] {
+  --ink: #0A0A0A;
+  --ink-deep: #000000;
   --canvas: #F5F4F0;
+  --graphite: #6E6E6E;
+  --graphite-soft: #A3A3A3;
+  --accent: #8B7BF0;
+
   --violet: #6C5CE7;
   --violet-soft: #8B7BF0;
   --violet-deep: #4A3DC9;
   --lime: #D4FF4F;
-  --graphite: #5B6475;
-  --graphite-soft: #8B95A8;
 
   --easing-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --ink: #FFFFFF;
+  --ink-deep: #F4F4F2;
+  --canvas: #0A0A0A;
+  --graphite: #9A9A9A;
+  --graphite-soft: #5C5C5C;
+  --accent: #6C5CE7;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -38,6 +54,7 @@ html {
 }
 
 body {
+  transition: background-color 0.5s var(--easing-cinematic), color 0.5s var(--easing-cinematic);
   background: var(--ink);
   color: var(--canvas);
   font-family: var(--font-geist), system-ui, -apple-system, sans-serif;
@@ -49,7 +66,7 @@ body {
    Selection
    ───────────────────────────────────────────── */
 ::selection {
-  background: rgba(108, 92, 231, 0.35);
+  background: color-mix(in srgb, var(--violet) 35%, transparent);
   color: var(--canvas);
 }
 
@@ -64,11 +81,11 @@ body {
   background: var(--ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(108, 92, 231, 0.35);
+  background: color-mix(in srgb, var(--canvas) 20%, transparent);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--violet);
+  background: var(--graphite);
 }
 
 /* ─────────────────────────────────────────────
@@ -87,7 +104,7 @@ body {
 .italic-violet {
   font-family: var(--font-instrument-serif), Georgia, serif;
   font-style: italic;
-  color: var(--violet-soft);
+  color: var(--accent);
   font-weight: 400;
 }
 
@@ -132,19 +149,19 @@ body {
   border: 1px solid var(--canvas);
 }
 .btn-canvas:hover {
-  box-shadow: 0 12px 30px rgba(245, 244, 240, 0.18);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--canvas) 18%, transparent);
   transform: translateY(-2px);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--canvas);
-  border: 1px solid rgba(245, 244, 240, 0.18);
+  border: 1px solid color-mix(in srgb, var(--canvas) 18%, transparent);
   transition: all 0.4s var(--easing-cinematic);
 }
 .btn-ghost:hover {
-  background: rgba(108, 92, 231, 0.08);
-  border-color: rgba(108, 92, 231, 0.45);
+  background: color-mix(in srgb, var(--canvas) 6%, transparent);
+  border-color: color-mix(in srgb, var(--canvas) 45%, transparent);
 }
 
 .btn-lime {
@@ -175,6 +192,7 @@ body {
   height: 7px;
   border-radius: 9999px;
   background: var(--lime);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--canvas) 25%, transparent);
   animation: spark-pulse 2.5s var(--easing-cinematic) infinite;
 }
 
@@ -216,7 +234,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(108, 92, 231, 0.18),
+    color-mix(in srgb, var(--canvas) 12%, transparent),
     transparent
   );
 }

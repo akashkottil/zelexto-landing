@@ -26,17 +26,20 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Zelexto Studio — Web experiences built to stand out",
   description:
-    "A digital studio crafting premium websites, mobile apps, and brand systems. Built in Kochi, working with clients across India and beyond.",
+    "A digital studio for websites, apps, brands, AI and growth. Senior craft, a small team, and launches measured in weeks.",
   keywords: [
     "digital studio",
     "web design",
     "app development",
     "branding",
+    "AI agents",
+    "digital marketing",
     "UI/UX design",
-    "Kochi",
-    "Kerala",
   ],
 };
+
+// Runs before paint so the saved (or system) theme never flashes the wrong colours.
+const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -47,7 +50,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col bg-ink text-canvas">
         <Loader />
         {children}

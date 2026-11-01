@@ -9,11 +9,12 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#work" },
   { label: "Process", href: "/#process" },
-  { label: "Work", href: "/#portfolio" },
   { label: "Cafe", href: "/cafe" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -39,7 +40,7 @@ export default function Navbar() {
         <div
           className={`flex items-center gap-1 rounded-full px-2 py-1.5 transition-all duration-500 ${
             scrolled
-              ? "bg-ink/70 backdrop-blur-xl border border-violet/20 shadow-[0_8px_30px_rgba(11,16,32,0.35)]"
+              ? "bg-ink/70 backdrop-blur-xl border border-canvas/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
               : "bg-ink/40 backdrop-blur-md border border-canvas/[0.06]"
           }`}
         >
@@ -64,11 +65,13 @@ export default function Navbar() {
 
           <span className="w-px h-4 bg-canvas/10" />
 
+          <ThemeToggle className="ml-1" />
+
           <motion.a
             href="https://wa.me/918590090380"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-violet px-5 py-2 rounded-full text-[13px] font-medium ml-1"
+            className="btn-canvas px-5 py-2 rounded-full text-[13px] font-medium ml-1"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
@@ -87,7 +90,7 @@ export default function Navbar() {
         <div
           className={`transition-all duration-400 ${
             scrolled
-              ? "bg-ink/85 backdrop-blur-xl border-b border-violet/15"
+              ? "bg-ink/85 backdrop-blur-xl border-b border-canvas/10"
               : "bg-transparent"
           }`}
         >
@@ -95,6 +98,8 @@ export default function Navbar() {
             <a href="#">
               <Logo variant="wordmark" size="sm" />
             </a>
+            <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="text-canvas w-10 h-10 flex items-center justify-center rounded-full bg-canvas/[0.05] border border-canvas/10"
@@ -102,16 +107,18 @@ export default function Navbar() {
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
+            </div>
           </div>
         </div>
 
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
-              className="bg-ink/95 backdrop-blur-xl border-b border-violet/15"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              className="bg-ink/95 backdrop-blur-xl border-b border-canvas/10"
+              // no height:"auto" here: measuring it makes framer call scrollTo and cancel the anchor scroll
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="px-5 py-5 space-y-1">
@@ -132,7 +139,7 @@ export default function Navbar() {
                   href="https://wa.me/918590090380"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block btn-violet px-5 py-3 rounded-full text-sm font-medium text-center mt-4"
+                  className="block btn-canvas px-5 py-3 rounded-full text-sm font-medium text-center mt-4"
                 >
                   Start a project
                 </a>
